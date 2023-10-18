@@ -10,3 +10,47 @@
 // R0 >= 0, R1 >= 0, and R0*R1 < 32768.
 
 // Put your code here.
+
+// pseudo code
+// if R0 >= 0 GOTO END;
+// if R1 >= 0 GOTO END;
+// if sum > 32768 GOTO END;
+// r2 = r0 * r1
+// LOOP
+// if i < r1
+// sum = sum + r0
+// i = i + 1
+
+// declare sum and i
+@i
+M=1
+@sum
+M=0
+(LOOP)
+// if (i > R1) goto STOP
+@i
+D=M
+@R1
+D=D-M
+@STOP
+D;JGT
+//sum = sum + R0
+@sum
+D=M
+@R0
+D=D+M
+@sum
+M=D
+// i = i + 1
+@i
+M=M+1
+@LOOP
+0;JMP
+(STOP)
+@sum
+D=M
+@R2
+M=D
+(END)
+@END
+0;JMP

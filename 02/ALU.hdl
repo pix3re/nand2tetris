@@ -48,9 +48,7 @@ CHIP ALU {
     
     // negate x, y if nx or ny
     Not16(in=zxx, out=nxx);
-    //Inc16(in=nxx, out=negx);
     Not16(in=zyy, out=nyy);
-    //Inc16(in=nyy, out=negy);
     Mux16(a=zxx, b=nxx, sel=nx, out=xx);
     Mux16(a=zyy, b=nyy, sel=ny, out=yy);
 
@@ -66,6 +64,11 @@ CHIP ALU {
     // negate out
     Not16(in=fout, out=negfout);
 
-    // final out
-    Mux16(a=fout, b=negfout, sel=no, out=out);
+    // final out, ng and zg
+    Mux16(a=fout, b=negfout, sel=no, out=out, out[15]=ng, out[0..7]=mbit, out[8..15]=lbit);
+
+    Or8Way(in=mbit, out=zr1);
+    Or8Way(in=lbit, out=zr2);
+    Or(a=zr1, b=zr1, out=zg3);
+    Not(in=zg3, out=zr);
 }
